@@ -1,0 +1,88 @@
+openapi: "3.0.0"
+info:
+  title: Security
+  description: Security
+  version: "1.0.0"
+tags:
+  - name: security
+    description: Operations related to security
+paths:
+  /public:
+    get:
+      summary: public
+      operationId: getPublic
+      tags:
+        - security
+      parameters:
+        - name: param
+          description: just a string
+          in: query
+          schema:
+            $ref: '#/components/schemas/Public'
+          required: true
+      responses:
+        '200':
+          description: Successful response with Public schema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private:
+    get:
+      summary: private
+      operationId: getPrivate
+      tags:
+        - security
+      parameters:
+        - name: param
+          description: just a string
+          required: true
+          in: query
+          schema:
+            $ref: '#/components/schemas/Private'
+      responses:
+        '200':
+          description: Successful response with Private schema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Private'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Public:
+      type: object
+      properties:
+        tag:
+          type: string
+      required:
+        - tag
+    Private:
+      type: object
+      properties:
+        tag:
+          type: string
+      required:
+        - tag
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
