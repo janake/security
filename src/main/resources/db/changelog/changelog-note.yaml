@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Zs
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: notes
+      changes:
+        - createTable:
+            tableName: notes
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: "RANDOM_UUID()"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false

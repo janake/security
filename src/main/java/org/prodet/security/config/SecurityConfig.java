@@ -52,7 +52,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 // Allows preflight requests from browser
                 .requestMatchers("/public*").permitAll()
-                .requestMatchers("/private*").hasRole("fonok")
+                .requestMatchers("/private*").hasAuthority("SCOPE_profile")
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated())
                 .oauth2Login(Customizer.withDefaults())
