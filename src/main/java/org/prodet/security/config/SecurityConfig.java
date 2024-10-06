@@ -16,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -50,11 +49,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                // Allows preflight requests from browser
-                .requestMatchers("/public*").permitAll()
-                .requestMatchers("/private*").hasAuthority("SCOPE_profile")
-                .requestMatchers("/").permitAll()
-                .anyRequest().authenticated())
+                        // Allows preflight requests from browser
+                        .requestMatchers("/public*").permitAll()
+                        .requestMatchers("/private*").hasAuthority("SCOPE_profile")
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2Login(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
         http.oauth2ResourceServer(oauth2 -> oauth2
